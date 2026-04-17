@@ -27,7 +27,7 @@
             padding: 20px;
         }
 
-        /* 优雅字体 */
+        /* 优雅字体导入 */
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
@@ -45,13 +45,13 @@
             transition: all 0.3s ease;
         }
 
-        /* 主标题 PlateTI */
+        /* 主标题 PlateTI - 手写花体 Great Vibes */
         .main-title {
             font-size: 72px;
-            font-weight: 700;
+            font-weight: 400;
             color: #b55a2a;
-            letter-spacing: 6px;
-            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            letter-spacing: 4px;
+            font-family: 'Great Vibes', 'Brush Script MT', cursive;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
         }
@@ -68,6 +68,7 @@
             margin-bottom: 40px;
             font-weight: 500;
             letter-spacing: 2px;
+            font-family: 'Cormorant Garamond', serif;
         }
 
         /* 描述小字 */
@@ -123,7 +124,7 @@
             }
             .main-title {
                 font-size: 52px;
-                letter-spacing: 4px;
+                letter-spacing: 3px;
             }
             .sub-title {
                 font-size: 20px;
@@ -148,11 +149,8 @@
 </div>
 
 <script>
-    // 点击「开始测试」后，跳转到主测试页面（index.html）
-    // 如果主测试文件叫 othername.html，请修改下面的文件名
     const startBtn = document.getElementById('startBtn');
     startBtn.addEventListener('click', () => {
-        // 假设主测试文件与封面在同一目录下，名为 index.html
         window.location.href = 'quiz.html';
     });
 </script>
