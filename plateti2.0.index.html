@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>灵魂食笺 · 你是哪道文学菜肴？</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* 淡雅碎花桌布背景 */
+            background-image: url('https://www.transparenttextures.com/patterns/floral.png');
+            background-color: #faf3e0;
+            background-repeat: repeat;
+            font-family: 'Cormorant Garamond', 'Georgia', 'Times New Roman', serif;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4a3729;
+        }
+
+        /* 优雅字体导入 */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
+        /* 主容器 */
+        .container {
+            max-width: 700px;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        /* 美丽餐盘卡片 */
+        .card {
+            background: #fffef7;
+            border-radius: 60px 60px 60px 50px;
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.2), 
+                        0 0 0 12px #f0e2c5,
+                        0 0 0 14px #d9c2a7;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .card-inner {
+            padding: 40px 36px;
+            background: linear-gradient(135deg, #fffef7 0%, #fffaf0 100%);
+            border-radius: 56px 56px 56px 46px;
+        }
+
+        /* 进度条 */
+        .progress-area {
+            margin-bottom: 30px;
+        }
+        .progress-bar-bg {
+            background: #ede0cf;
+            border-radius: 40px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: #c4815a;
+            width: 0%;
+            height: 100%;
+            border-radius: 40px;
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            text-align: right;
+            font-size: 13px;
+            margin-top: 8px;
+            color: #b28b65;
+            letter-spacing: 0.5px;
+            font-family: monospace;
+        }
+
+        /* 问题区域 */
+        .question-text {
+            font-size: 28px;
+            font-weight: 500;
+            line-height: 1.35;
+            margin-bottom: 32px;
+            color: #5c3e2a;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            font-weight: 600;
+        }
+
+        /* 选项按钮组 */
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+        .option-btn {
+            background: #fffaf2;
+            border: 1.5px solid #e2cfb0;
+            border-radius: 60px;
+            padding: 14px 22px;
+            font-size: 17px;
+            text-align: left;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            color: #5c3e2a;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .option-btn:hover {
+            background: #f4e5d4;
+            border-color: #c79a6e;
+            transform: scale(0.98);
+        }
+        .option-btn.selected {
+            background: #d9b48b;
+            border-color: #a5612c;
+            color: white;
+            box-shadow: 0 4px 10px rgba(160, 100, 40, 0.2);
+        }
+
+        /* 导航按钮 */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .nav-btn {
+            background: transparent;
+            border: 1px solid #cfb68c;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Cormorant Garamond', serif;
+            color: #8b694a;
+        }
+        .nav-btn.primary {
+            background: #c4815a;
+            border: none;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .nav-btn.primary:hover {
+            background: #a86032;
+            transform: translateY(-2px);
+        }
+        .nav-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* 结果页面 - 餐盘样式增强 */
+        .result-dish {
+            text-align: center;
+        }
+        .dish-name {
+            font-size: 42px;
+            font-weight: 700;
+            color: #b55a2a;
+            margin: 15px 0 10px;
+            letter-spacing: 2px;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+        }
+        .dish-sub {
+            font-size: 18px;
+            color: #a07a56;
+            border-bottom: 2px dotted #e7cfae;
+            display: inline-block;
+            padding-bottom: 4px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .dish-desc {
+            text-align: left;
+            background: #fffcf5;
+            padding: 28px;
+            border-radius: 48px;
+            margin: 20px 0;
+            line-height: 1.75;
+            font-size: 17px;
+            color: #4a3729;
+            border-left: 8px solid #d9aa7a;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            box-shadow: inset 0 0 0 1px #f8efdf, 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .dish-quote {
+            font-style: italic;
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px solid #ecdbba;
+            color: #c48a5c;
+            text-align: center;
+            font-size: 18px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .restart-btn {
+            background: #c4815a;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            margin-top: 24px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .restart-btn:hover {
+            background: #9b542c;
+            transform: scale(0.96);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #c9a87b;
+            font-family: monospace;
+        }
+
+        @media (max-width: 550px) {
+            .card-inner { padding: 28px 22px; }
+            .question-text { font-size: 24px; }
+            .dish-name { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app"></div>
+
+<script>
+    // ---------- 题目数据 (20题，每题4个选项，分值1~4) ----------
+    const questions = [
+        { text: "周末你更享受？", options: ["独自看书/看剧", "小范围好友聚餐", "认识新朋友的派对", "户外冒险/旅行"] },
+        { text: "面对难题，你通常？", options: ["按计划逐步分析", "凭直觉快速行动", "询问他人建议", "先搁置，等灵感"] },
+        { text: "哪种环境让你充电？", options: ["静谧自然", "舒适的家里", "热闹的咖啡馆/市集", "陌生的异国街头"] },
+        { text: "你更重视？", options: ["传统与经典", "家庭与亲密关系", "新奇与冒险", "自由与独立"] },
+        { text: "朋友形容你最多的是？", options: ["冷静理性", "热情感性", "幽默风趣", "神秘深沉"] },
+        { text: "如果去异国旅行，你会优先？", options: ["历史遗迹", "街头小吃", "自然奇观", "当地人家做客"] },
+        { text: "你更擅长？", options: ["逻辑推理", "共情沟通", "创意发散", "危机处理"] },
+        { text: "你偏好的艺术风格？", options: ["古典主义", "浪漫主义", "超现实主义", "极简主义"] },
+        { text: "面对压力，你会？", options: ["整理待办清单", "找朋友倾诉", "运动/大吃一顿", "躲起来放空"] },
+        { text: "你更怀念？", options: ["童年的味道", "远方的未知", "一段逝去的感情", "从未经历过的时代"] },
+        { text: "你认为自己？", options: ["务实可靠", "浪漫随性", "叛逆不羁", "矛盾复杂"] },
+        { text: "你更愿意学习？", options: ["一门手艺", "一门语言", "一种乐器", "一种哲学"] },
+        { text: "在团队中，你常是？", options: ["策略家", "润滑剂", "执行者", "旁观者"] },
+        { text: "你对“奢侈”的定义？", options: ["时间自由", "极致工艺", "独特体验", "心灵平静"] },
+        { text: "你更容易被哪种人吸引？", options: ["沉稳神秘", "鲜活热烈", "幽默聪明", "温柔包容"] },
+        { text: "你相信命运吗？", options: ["更信选择", "更信缘分", "更信随机", "更信因果"] },
+        { text: "你更常做哪种梦？", options: ["重复的场景", "奇幻冒险", "坠落/追逐", "清醒梦/控制梦"] },
+        { text: "你偏好哪种季节？", options: ["春", "夏", "秋", "冬"] },
+        { text: "你更享受？", options: ["独自完成作品", "合作创造", "即兴发挥", "指导他人"] },
+        { text: "你希望他人记住你？", options: ["可靠背影", "有趣灵魂", "深刻思想", "温柔善意"] }
+    ];
+
+    // 常规菜品数据（已删除“缺点”部分）
+    const regularDishes = [
+        { min: 20, max: 24, name: "普鲁斯特的玛德琳蛋糕", origin: "《追忆似水年华》·法国", personality: "记忆收藏家", desc: "你活在时间的褶皱里。一块蛋糕、一缕气味都能让你跌入漫长的内心独白。你不只是回忆过去，而是反复咀嚼、重塑它。外人看来你有些忧郁，但你知道那是你与自我对话的方式。你适合写作、艺术、心理咨询等需要细腻感知的领域。", quote: "失去的乐园，才是唯一的乐园。" },
+        { min: 25, max: 28, name: "冷黄瓜酸奶汤", origin: "土耳其·《我的名字叫红》", personality: "冷静解构者", desc: "你是人群中最不容易被情绪裹挟的人。当所有人都在争吵，你能端出一碗冰凉的逻辑。你擅长化繁为简，也擅长在混乱中找出关键矛盾。别人觉得你有点“冷”，但你知道热情需要用在刀刃上。适合做战略、谈判、科研。", quote: "燥热的问题，需要清凉的解法。" },
+        { min: 29, max: 32, name: "豌豆粥配腌鱼", origin: "冰岛·《独立的人们》", personality: "倔强的生存者", desc: "你接受生活的粗粝，甚至从中品出诗意。你不追求精致，但追求真实。别人抱怨环境恶劣时，你已经默默生起了火。你有一种“苔原性格”——缓慢但不可摧毁。适合户外、工程、独立创作。", quote: "甜是恩赐，咸是本事。" },
+        { min: 33, max: 36, name: "蛤蜊浓汤配黑面包", origin: "《白鲸》·美国新英格兰", personality: "沉默的水手", desc: "你不怕单调和重复，甚至享受其中。你的话不多，但每句都有分量。你习惯用行动代替言语，像一艘独自航行的船——不需要观众，只需要方向。朋友不多，但都是过命的交情。", quote: "灯塔不说话，但船都看得见。" },
+        { min: 37, max: 40, name: "那不勒斯焗烤茄子", origin: "《我的天才女友》·意大利", personality: "草根贵族", desc: "你出身平凡，甚至粗粝，但你从不认命。你把廉价食材做成盛宴，把苦难熬成故事。你有一种“向上的野蛮力”，同时保留着对底层深深的共情。你是那种让人不敢小看的人。", quote: "泥土里开出的花，比温室里的更香。" },
+        { min: 41, max: 44, name: "松露黄油煮土豆配风干火腿", origin: "《厨房机密》·法意边境", personality: "质朴的享乐主义者", desc: "你可能是那种朋友圈里最“不讲究”的人——穿旧衣服用旧手机。但如果你邀请朋友来家里吃饭，端出来的却是松露黄油配36个月风干火腿。你不喜欢用Logo证明自己，你相信真正的品味藏在细节里。你相信爱不需要喧哗，像黄油慢慢融化在热土豆上就够了。", quote: "奢侈不是给别人看的，是给自己舌头的。" },
+        { min: 45, max: 48, name: "桂花糯米藕", origin: "《红楼梦》·中国江南", personality: "外柔内刚的谋略家", desc: "你看似甜软可亲，实则内心有筋骨。你擅长在不声不响中达成目的，像藕一样——断开来，丝还连着。你懂得人情世故但不世故，能在复杂环境中保持自己的节奏。", quote: "柔软是一种主动的选择，不是天生的。" },
+        { min: 49, max: 52, name: "抹茶蕨饼配黑蜜", origin: "《千与千寻》·日本", personality: "静谧的观察者", desc: "你外表像一杯抹茶——清苦、冷静。但入口后，黑蜜的甜会慢慢涌上来。你不喜欢喧哗，但你的内心剧场从不落幕。你擅长倾听，擅长记住细节，擅长在沉默中理解他人。", quote: "静水深流，不争自有声。" },
+        { min: 53, max: 56, name: "橄榄油浸章鱼配鹰嘴豆", origin: "《奥德赛》·希腊", personality: "归来的旅人", desc: "你经历过漫长的漂泊——地理上或心灵上。你靠聪明而非蛮力活下来，像章鱼一样柔软又难缠。你最终会找到归途，但那些弯路都成了你的勋章。你懂得等待，也懂得出手。", quote: "流浪的人最懂家的意义。" },
+        { min: 57, max: 60, name: "覆盆子酱馅小馅饼", origin: "《罪与罚》·俄罗斯", personality: "矛盾的忏悔者", desc: "你内心常有理想与现实的拉锯。你想做好人，但常常被黑暗念头纠缠。你爱得深，也痛得深。你渴望被理解，又害怕暴露自己的裂缝。你像那颗馅饼——咬开是红色的，酸甜交织。", quote: "只有深刻挣扎过的人，才懂真正的善良。" },
+        { min: 61, max: 64, name: "香蕉叶包烤鱼", origin: "《恰似水于巧克力》·墨西哥", personality: "火焰情人", desc: "你的情绪像火焰——烧起来很烈，熄灭也快。你相信食物、性和爱都是生命的仪式。你讨厌平淡，喜欢在边缘试探。你有一种原始的魅力，让人想靠近又怕被灼伤。", quote: "平淡不是生活，是提前死亡。" },
+        { min: 65, max: 68, name: "红酒炖牛肉", origin: "《美食、祈祷和恋爱》·勃艮第", personality: "温柔的炼金师", desc: "你相信时间的力量。你能把粗糙的食材、破碎的人心慢慢炖出香气。你天生是照顾者、疗愈者。你不急着要结果，因为你相信慢工出细活。你是朋友在低谷时第一个想起的人。", quote: "慢慢来，一切都会化开。" },
+        { min: 69, max: 72, name: "摩洛哥哈里拉羊肉汤", origin: "《卡萨布兰卡》·摩洛哥", personality: "香料调和者", desc: "你是天生的东道主，能让任何人感到被欢迎。你身上有十几种香料的层次——甜、辛、酸、咸交织。你善于调和矛盾，也善于把陌生人变成朋友。你的人生哲学是：“越多越丰富。”", quote: "孤独是种浪费，分享才是真理。" },
+        { min: 73, max: 76, name: "咖喱蟹配椰浆饭", origin: "娘惹·《娘惹回忆》", personality: "文化游牧者", desc: "你天生讨厌单一，喜欢打破边界。东方西方、传统现代在你身上共存且互不排斥。你是聚会中的惊喜，是团队里的创意引擎。你相信最美的东西都诞生在交界处。", quote: "纯粹是神话，杂交才是现实。" },
+        { min: 77, max: 78, name: "龙息辣椒炖肉", origin: "《冰与火之歌》·维斯特洛", personality: "火焰守护者", desc: "你是一团移动的火焰，情绪来得快去得也快。你对朋友两肋插刀，对敌人绝不手软。你受不了虚伪和磨叽，喜欢直来直去。", quote: "火是工具，不是主人。" },
+        { min: 79, max: 80, name: "晨雾中的蜂蜜烤面包配无花果", origin: "《希腊人佐巴》·克里特岛", personality: "黎明的诗人", desc: "你看似随性甚至有些邋遢，但你每天清晨会为自己认真烤一片面包。你不在意世界的眼光，但你会在别人看不见的地方保持仪式感。你像佐巴一样——嘴里说着“管他呢”，手里却精心摆盘。你相信真正的魔法不是拯救世界，而是日复一日地温柔对待自己和所爱之人。", quote: "伟大的灵魂，都藏在平凡的早餐里。" }
+    ];
+
+    // 隐藏菜肴数据（同样删除缺点）
+    const hiddenDishes = {
+        "仰望星空派": { origin: "康沃尔·荒诞诗篇", personality: "黑色幽默家", desc: "你故意用荒诞对抗平庸，用讽刺表达深情。人们要么爱死你，要么怕死你。你相信“乱来才是最高级的秩序”。", quote: "鱼应该仰望星空，人应该偶尔荒唐。" },
+        "永远饥饿的蜂蜜酒": { origin: "瓦尔哈拉·《诗体埃达》", personality: "永不满足的追寻者", desc: "你是哲学家、流浪者或酒徒——永远在寻找“下一口真理”。你孤独但自由，饥饿但清醒。", quote: "饱足是死亡，饥饿才是活着。" },
+        "食罪者的面包与盐": { origin: "中世纪民俗", personality: "悲悯的承担者", desc: "你习惯吃掉别人的痛苦，背负不属于你的罪。你是世界上最好的朋友，却是最亏待自己的人。", quote: "先喂饱自己，再喂养世界。" },
+        "梦神的花瓣蜜饯": { origin: "《变形记》·古希腊罗马", personality: "梦幻的织网者", desc: "你活在现实与梦境的缝隙，常说出预言般的句子。你的存在让世界柔软，但也让你容易受伤。", quote: "梦不是逃避，是另一种真实。" },
+        "无法命名的虚空炖菜": { origin: "博尔赫斯·《小径分岔的花园》", personality: "无限可能性", desc: "你拒绝被定义，永远在变化。你今天是一种味道，明天是另一种。你是镜子里的迷宫，永远找不到核心。", quote: "名字是监狱，我是逃犯。" }
+    };
+
+    function getHiddenDish(answers, total) {
+        const a = answers;
+        if (a[1] === 4 && a[8] === 3 && a[14] === 2 && total >= 70) return "仰望星空派";
+        if (a[11] === 4 && a[15] === 4 && a[16] === 4 && total >= 75) return "永远饥饿的蜂蜜酒";
+        if (a[4] === 1 && a[10] === 4 && a[18] === 1 && a[19] === 4) return "食罪者的面包与盐";
+        if (a[2] === 1 && a[7] === 3 && a[9] === 4 && a[17] === 1) return "梦神的花瓣蜜饯";
+        if ((total === 42 || total === 63) && a[19] === 3) return "无法命名的虚空炖菜";
+        return null;
+    }
+
+    function getRegularDish(score) {
+        for(let d of regularDishes) {
+            if(score >= d.min && score <= d.max) return d;
+        }
+        return regularDishes[0];
+    }
+
+    let currentIndex = 0;
+    let answers = new Array(20).fill(null);
+    let appEl = document.getElementById('app');
+
+    function renderQuestion() {
+        const q = questions[currentIndex];
+        const selectedVal = answers[currentIndex];
+        const optionsHtml = q.options.map((opt, idx) => {
+            const val = idx+1;
+            const isSelected = (selectedVal === val);
+            return `<button class="option-btn ${isSelected ? 'selected' : ''}" data-val="${val}">${String.fromCharCode(65+idx)}. ${opt}</button>`;
+        }).join('');
+        const progressPercent = ((currentIndex) / 20) * 100;
+        const html = `
+            <div class="card">
+                <div class="card-inner">
+                    <div class="progress-area">
+                        <div class="progress-bar-bg"><div class="progress-fill" style="width: ${progressPercent}%;"></div></div>
+                        <div class="progress-text">第 ${currentIndex+1} / 20 题</div>
+                    </div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="options-group" id="optionsGroup">
+                        ${optionsHtml}
+                    </div>
+                    <div class="nav-buttons">
+                        <button class="nav-btn" id="prevBtn" ${currentIndex===0 ? 'disabled style="opacity:0.4"' : ''}>◀ 上一题</button>
+                        <button class="nav-btn primary" id="nextBtn">${currentIndex===19 ? '✨ 揭晓我的菜肴 ✨' : '下一题 ▶'}</button>
+                    </div>
+                </div>
+            </div>
+            <footer>灵魂食笺 · 每一道菜都是一面灵魂的镜子</footer>
+        `;
+        appEl.innerHTML = html;
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const val = parseInt(btn.dataset.val);
+                answers[currentIndex] = val;
+                renderQuestion();
+            });
+        });
+        document.getElementById('prevBtn')?.addEventListener('click', () => {
+            if(currentIndex > 0) { currentIndex--; renderQuestion(); }
+        });
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if(answers[currentIndex] === null) {
+                alert("请先选择一个选项 🌟");
+                return;
+            }
+            if(currentIndex === 19) {
+                computeResult();
+            } else {
+                currentIndex++;
+                renderQuestion();
+            }
+        });
+    }
+
+    function computeResult() {
+        let total = 0;
+        for(let i=0;i<20;i++) total += answers[i];
+        const hiddenKey = getHiddenDish(answers, total);
+        let dishName, dishData, isHidden=false;
+        if(hiddenKey) {
+            isHidden = true;
+            dishName = hiddenKey;
+            dishData = hiddenDishes[hiddenKey];
+        } else {
+            const regular = getRegularDish(total);
+            dishName = regular.name;
+            dishData = { origin: regular.origin, personality: regular.personality, desc: regular.desc, quote: regular.quote };
+        }
+        const hiddenBadge = isHidden ? '<span style="background:#c9ab7b; padding:4px 12px; border-radius:40px; font-size:14px;">✨ 隐藏菜肴 ✨</span>' : '';
+        const resultHtml = `
+            <div class="card">
+                <div class="card-inner result-dish">
+                    ${hiddenBadge}
+                    <div class="dish-name">${dishName}</div>
+                    <div class="dish-sub">${dishData.origin}</div>
+                    <div class="dish-desc">
+                        <strong>🍽️ 灵魂人格 · ${dishData.personality}</strong><br><br>
+                        ${dishData.desc}
+                    </div>
+                    <div class="dish-quote">“ ${dishData.quote} ”</div>
+                    <button class="restart-btn" id="restartBtn">🌿 重新品尝 🌿</button>
+                </div>
+            </div>
+            <footer>测测你的朋友是哪道文学菜肴？</footer>
+        `;
+        appEl.innerHTML = resultHtml;
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
+            answers = new Array(20).fill(null);
+            currentIndex = 0;
+            renderQuestion();
+        });
+    }
+
+    renderQuestion();
+</script>
+</body>
+</html>
