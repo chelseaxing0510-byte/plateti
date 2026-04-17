@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PlateTI · 测测你是什么菜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* 与主测试完全一致的背景设置 */
+            background-image: url('my-bg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #faf3e0;
+            font-family: 'Cormorant Garamond', 'Georgia', 'Times New Roman', serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* 优雅字体 */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
+        /* 封面卡片 - 羊皮纸暖色 + 金色边框 */
+        .cover-card {
+            max-width: 600px;
+            width: 100%;
+            background: #faf6e9;
+            border-radius: 48px;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2),
+                        0 0 0 6px #efe0c6,
+                        0 0 0 12px #d9c2a7;
+            padding: 48px 32px 56px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* 主标题 PlateTI */
+        .main-title {
+            font-size: 72px;
+            font-weight: 700;
+            color: #b55a2a;
+            letter-spacing: 6px;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* 副标题 */
+        .sub-title {
+            font-size: 24px;
+            color: #a07a56;
+            font-style: italic;
+            border-top: 2px dotted #e7cfae;
+            border-bottom: 2px dotted #e7cfae;
+            display: inline-block;
+            padding: 12px 0;
+            margin-bottom: 40px;
+            font-weight: 500;
+            letter-spacing: 2px;
+        }
+
+        /* 描述小字 */
+        .description {
+            font-size: 16px;
+            color: #8b694a;
+            margin-bottom: 48px;
+            line-height: 1.6;
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* 开始测试按钮 */
+        .start-btn {
+            background: #c4815a;
+            border: none;
+            padding: 14px 42px;
+            border-radius: 60px;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+
+        .start-btn:hover {
+            background: #9b542c;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+        }
+
+        .start-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* 页脚装饰 */
+        .footer-note {
+            margin-top: 48px;
+            font-size: 12px;
+            color: #c9a87b;
+            font-family: monospace;
+        }
+
+        @media (max-width: 550px) {
+            .cover-card {
+                padding: 36px 24px 44px;
+            }
+            .main-title {
+                font-size: 52px;
+                letter-spacing: 4px;
+            }
+            .sub-title {
+                font-size: 20px;
+            }
+            .start-btn {
+                padding: 12px 32px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="cover-card">
+    <div class="main-title">PlateTI</div>
+    <div class="sub-title">测测你是什么菜</div>
+    <div class="description">
+        21 道题 · 探访灵魂深处的风味<br>
+        每一道菜，都是一面灵魂的镜子
+    </div>
+    <button class="start-btn" id="startBtn">开始测试 ✨</button>
+    <div class="footer-note">灵魂食笺 · 文学餐桌</div>
+</div>
+
+<script>
+    // 点击「开始测试」后，跳转到主测试页面（index.html）
+    // 如果主测试文件叫 othername.html，请修改下面的文件名
+    const startBtn = document.getElementById('startBtn');
+    startBtn.addEventListener('click', () => {
+        // 假设主测试文件与封面在同一目录下，名为 index.html
+        window.location.href = 'index.html';
+    });
+</script>
+</body>
+</html>
